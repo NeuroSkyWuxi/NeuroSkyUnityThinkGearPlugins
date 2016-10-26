@@ -1,0 +1,7 @@
+<linker>
+<assembly fullname="Assembly-CSharp">
+<type fullname="DisplayData" preserve="all"/>
+<type fullname="PreserveOnReload" preserve="all"/>
+<type fullname="ThinkGearController" preserve="all"/>
+</assembly>
+</linker>
