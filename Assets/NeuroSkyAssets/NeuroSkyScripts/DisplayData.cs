@@ -136,12 +136,12 @@ public class DisplayData : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-
+		#if UNITY_IPHONE
 		//当触摸到了列表以外的地方  消失列表
 		// 不与Connect按钮位置 重复
 		if (Input.touchCount > 0) {
-			print ("Screen.width : "+Screen.width+ "Screen.height : " +Screen.height);
-			print ("Touch Position x : "+Input.GetTouch(0).position.x + " y : "+Input.GetTouch(0).position.y);
+//			print ("Screen.width : "+Screen.width+ "Screen.height : " +Screen.height);
+//			print ("Touch Position x : "+Input.GetTouch(0).position.x + " y : "+Input.GetTouch(0).position.y);
 			if (
 				Input.GetTouch (0).position.x >= rectX && Input.GetTouch (0).position.x <= (rectX + rectWidth)
 				&& Input.GetTouch (0).position.y >= (Screen.height - rectY- rectHeight) && Input.GetTouch (0).position.y <= (Screen.height - rectY )) {
@@ -149,7 +149,7 @@ public class DisplayData : MonoBehaviour {
 			} else if (Input.GetTouch (0).position.x <= 290 && Input.GetTouch (0).position.x >= 190 &&
 			          Input.GetTouch (0).position.y >= (Screen.height - 140 - 80) && Input.GetTouch (0).position.y <= (Screen.height - 140)) {
 				
-				print(" Click Connect Button Frame");
+//				print(" Click Connect Button Frame");
 			} else {
 				print("blank place Click ; dismiss list view");
 
@@ -157,6 +157,8 @@ public class DisplayData : MonoBehaviour {
 			}
 
 		}
+
+		#endif
 	}
 	
 	/**
@@ -184,12 +186,18 @@ public class DisplayData : MonoBehaviour {
 		}
 		
 		if(GUI.Button(new Rect(190,140,100,80),"Connect")){
-//			UnityThinkGear.StartStream();
-
 			print("Connect Button CLick");
+			#if UNITY_IPHONE
+
 			clearDataArr();
 			UnityThinkGear.ScanDevice();
 			showListViewFlag = true;
+
+			#elif UNITY_ANDROID
+			UnityThinkGear.StartStream();
+
+			#endif
+
 		}
 		
 		if(GUI.Button(new Rect(190,250,100,80),"Quit")){
@@ -233,7 +241,9 @@ public class DisplayData : MonoBehaviour {
 		for(int i = 0; i < deviceList.Count; i++) {
 			if(GUILayout.Button (displayedStrArr[i]+"", buttonStyle)) {
 				print("Click "+deviceList[i]);
+				#if UNITY_IPHONE
 				UnityThinkGear.ConnectDevice(deviceList[i]+"");
+				#endif
 				dismissListView();
 			}
 		}

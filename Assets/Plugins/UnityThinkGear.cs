@@ -104,6 +104,7 @@ public class UnityThinkGear{
 #endif
 	}
 
+#if UNITY_IPHONE
 	//Tommy add 20161020
 	public static void ScanDevice(){
 		TGAM_ScanDevice();
@@ -114,6 +115,7 @@ public class UnityThinkGear{
 		TGAM_ConnectDevice(deviceId);
 
 	}
+#endif
 	//Tommy end
 	//========================
 	public static bool GetSendRawEnable(){
