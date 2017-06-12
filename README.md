@@ -113,6 +113,10 @@ Run your own project:
 1.Drag the ThinkGear prefab from Project view to Hierarchy view	
 
 2.At the place you want to use Attention,Meditation,EEG and so on,add following code
+(The source code for Assets\Plugins\Android\UnityThinkGear.aar is here:
+https://github.com/NeuroSkyWuxi/UnityThinkGearAndroid
+You can build your own UnityThinkGear.aar)
+
 
    void Start()
     {
