@@ -25,9 +25,18 @@ public class DisplayData : MonoBehaviour {
 	private float LowGamma = 0.0f;
 	private float HighGamma = 0.0f;
 
+    private int Algo_Attention = 0;
+    private int Algo_Meditation = 0;
+    private float Algo_Delta = 0.0f;
+    private float Algo_Theta = 0.0f;
+    private float Algo_Alpha = 0.0f;
+    private float Algo_Beta = 0.0f;
+    private float Algo_Gamma = 0.0f;
 
-	//Tommy add 20161020
-	private bool showListViewFlag = false;
+
+
+    //Tommy add 20161020
+    private bool showListViewFlag = false;
 	private ArrayList deviceList;
 	private ArrayList displayedStrArr;
 	Vector2 scrollPosition ;
@@ -61,9 +70,18 @@ public class DisplayData : MonoBehaviour {
 		controller.UpdateBlinkEvent += OnUpdateBlink;
 
 		controller.UpdateDeviceInfoEvent += OnUpdateDeviceInfo;
+        controller.Algo_UpdateAttentionEvent += OnAlgo_UpdateAttentionEvent;
+        controller.Algo_UpdateMeditationEvent += OnAlgo_UpdateMeditationEvent;
+        controller.Algo_UpdateDeltaEvent += OnAlgo_UpdateDeltaEvent;
+        controller.Algo_UpdateThetaEvent += OnAlgo_UpdateThetaEvent;
+        controller.Algo_UpdateAlphaEvent += OnAlgo_UpdateAlphaEvent;
+        controller.Algo_UpdateBetaEvent += OnAlgo_UpdateBetaEvent;
+        controller.Algo_UpdateGammaEvent += OnAlgo_UpdateGammaEvent;
 
 
-		deviceList = new ArrayList();
+
+
+    deviceList = new ArrayList();
 		displayedStrArr = new ArrayList();
 		rectX = Screen.width / 10;
 		rectY = Screen.height / 3;
@@ -72,8 +90,40 @@ public class DisplayData : MonoBehaviour {
 			
 		
 	}
-	
-	void OnUpdatePoorSignal(int value){
+
+    void OnAlgo_UpdateAttentionEvent(int value)
+    {
+        Algo_Attention = value;
+    }
+    void OnAlgo_UpdateMeditationEvent(int value)
+    {
+        Algo_Meditation = value;
+
+    }
+
+    void OnAlgo_UpdateDeltaEvent(float value)
+    {
+        Algo_Delta = value;
+    }
+    void OnAlgo_UpdateThetaEvent(float value)
+    {
+        Algo_Theta = value;
+    }
+    void OnAlgo_UpdateAlphaEvent(float value)
+    {
+        Algo_Alpha = value;
+    }
+    void OnAlgo_UpdateBetaEvent(float value)
+    {
+        Algo_Beta = value;
+    }
+    void OnAlgo_UpdateGammaEvent(float value)
+    {
+        Algo_Gamma = value;
+    }
+
+
+    void OnUpdatePoorSignal(int value){
 		PoorSignal = value;
 		if(value == 0){
       		indexSignalIcons = 0;
@@ -188,7 +238,6 @@ public class DisplayData : MonoBehaviour {
 		if(GUI.Button(new Rect(190,140,100,80),"Connect")){
 			print("Connect Button CLick");
 			#if UNITY_IPHONE
-
 			clearDataArr();
 			UnityThinkGear.ScanDevice();
 			showListViewFlag = true;
@@ -228,8 +277,18 @@ public class DisplayData : MonoBehaviour {
 		GUILayout.Label("HighBeta:" + HighBeta);
 		GUILayout.Label("LowGamma:" + LowGamma);
 		GUILayout.Label("HighGamma:" + HighGamma);
-		
-		GUILayout.EndVertical();
+        GUILayout.Label("");
+        GUILayout.Label("");
+        GUILayout.Label("EEG Algorithm output values");
+        GUILayout.Label("Attention:" + Algo_Attention);
+        GUILayout.Label("Meditation:" + Algo_Meditation);
+        GUILayout.Label("Delta:" + Algo_Delta);
+        GUILayout.Label("Theta:" + Algo_Theta);
+        GUILayout.Label("Alpha:" + Algo_Alpha);
+        GUILayout.Label("Beta:" + Algo_Beta);
+        GUILayout.Label("Gamma:" + Algo_Gamma);
+
+        GUILayout.EndVertical();
 	}	
 
 	void DeviceListWindow (int windowID) {

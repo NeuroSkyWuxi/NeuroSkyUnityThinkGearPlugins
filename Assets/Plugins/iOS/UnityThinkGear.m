@@ -30,6 +30,12 @@
         deviceInfo = @"";
         NSLog(@"init MWMDevice");
         
+        
+        [self initEEGSDK];
+        
+        NSLog(@"call Algo SDK startProcess");
+        [[NskAlgoSdk sharedInstance] startProcess];
+        
     }
     return self;
 }
@@ -45,6 +51,13 @@
     
     NSLog(@"deviceFound deviceInfo = %@",deviceInfo);
     const char * info =[deviceInfo UTF8String];
+    if ([deviceID containsString:@":"]) {
+        bleFlag = NO;
+    }
+    else{
+        bleFlag = YES;
+
+    }
     
     UnitySendMessage("ThinkGear", "receiveDeviceInfo", info);
 }
@@ -62,7 +75,13 @@
     if(sendRawEnable){
         UnitySendMessage("ThinkGear", "receiveRawdata", [[NSString stringWithFormat:@"%d",sample] cStringUsingEncoding:NSUTF8StringEncoding]);
     }
-    
+    int16_t eeg_data[1];
+    eeg_data[0] = (int16_t)sample;
+    // if BLE device, double the data;256->512 sample rate
+    if (bleFlag) {
+        [[NskAlgoSdk sharedInstance]  dataStream:NskAlgoDataTypeEEG data:eeg_data length:1];
+    }
+    [[NskAlgoSdk sharedInstance]  dataStream:NskAlgoDataTypeEEG data:eeg_data length:1];
 }
 
 -(void)eSense:(int)poorSignal Attention:(int)attention Meditation:(int)meditation{
@@ -75,7 +94,17 @@
     }
     
     
+    int16_t poor_signal_data[1];
+    poor_signal_data[0] = (int16_t)poorSignal;
+    [[NskAlgoSdk sharedInstance] dataStream:NskAlgoDataTypePQ data:poor_signal_data length:1];
     
+    int16_t attention_data[1];
+    attention_data[0] = (int16_t)attention;
+     [[NskAlgoSdk sharedInstance] dataStream:NskAlgoDataTypeAtt data:attention_data length:1];
+    
+    int16_t meditation_data[1];
+    meditation_data[0] = (int16_t)meditation;
+     [[NskAlgoSdk sharedInstance] dataStream:NskAlgoDataTypeMed data:meditation_data length:1];
 }
 
 -(void)eegPowerDelta:(int)delta Theta:(int)theta LowAlpha:(int)lowAlpha HighAlpha:(int)highAlpha{
@@ -189,6 +218,87 @@
     sendBlinkEnable = value;
     
 }
+
+
+
+
+///=====  EEG ALGO SDK Part
+
+
+- (void)initEEGSDK{
+    NskAlgoSdk *handle = [NskAlgoSdk sharedInstance];
+    handle.delegate = self;
+    
+    NskAlgoEegType algoTypes = 0;
+    algoTypes |= NskAlgoEegTypeAtt;
+    algoTypes |= NskAlgoEegTypeMed;
+    algoTypes |= NskAlgoEegTypeBP;
+    algoTypes |= NskAlgoEegTypeBlink;
+
+    NSInteger ret;
+    if ((ret = [[NskAlgoSdk sharedInstance] setAlgorithmTypes:algoTypes]) != 0) {
+        
+        NSLog(@"Fail to init EEG SDK [%ld]",ret);
+        //            return;
+    }
+    else{
+        NSLog(@"init EEG SDK success");
+        NSLog(@"algo sdk version = %@",[[NskAlgoSdk sharedInstance] getSdkVersion]);
+        
+    }
+
+
+}
+
+#pragma EEG SDK DELEGATE
+
+/* notification on SDK state change */
+- (void) stateChanged: (NskAlgoState)state reason:(NskAlgoReason)reason{
+    //when algo sdk automatically stop, we should restart it.
+    if (state == NskAlgoStateStop && reason == NskAlgoReasonSignalQuality) {
+        NSLog(@"call Algo SDK startProcess");
+        [[NskAlgoSdk sharedInstance] startProcess];
+        
+    }
+
+
+
+}
+
+
+/* notification on EEG algorithm index */
+- (void) attAlgoIndex: (NSNumber*)att_index{
+      UnitySendMessage("ThinkGear", "receiveEEGAlgorithmValue", [[NSString stringWithFormat:@"attention:%@",att_index]  cStringUsingEncoding:NSUTF8StringEncoding]);
+}
+
+- (void) medAlgoIndex: (NSNumber*)med_index{
+    UnitySendMessage("ThinkGear", "receiveEEGAlgorithmValue", [[NSString stringWithFormat:@"meditation:%@",med_index]  cStringUsingEncoding:NSUTF8StringEncoding]);
+
+
+}
+
+- (void) eyeBlinkDetect: (NSNumber*)strength{
+
+
+}
+
+- (void) bpAlgoIndex: (NSNumber*)delta theta:(NSNumber*)theta alpha:(NSNumber*)alpha beta:(NSNumber*)beta gamma:(NSNumber*)gamma{
+    UnitySendMessage("ThinkGear", "receiveEEGAlgorithmValue", [[NSString stringWithFormat:@"delta:%@",delta]  cStringUsingEncoding:NSUTF8StringEncoding]);
+    UnitySendMessage("ThinkGear", "receiveEEGAlgorithmValue", [[NSString stringWithFormat:@"theta:%@",theta]  cStringUsingEncoding:NSUTF8StringEncoding]);
+    UnitySendMessage("ThinkGear", "receiveEEGAlgorithmValue", [[NSString stringWithFormat:@"alpha:%@",alpha]  cStringUsingEncoding:NSUTF8StringEncoding]);
+    UnitySendMessage("ThinkGear", "receiveEEGAlgorithmValue", [[NSString stringWithFormat:@"beta:%@",beta]  cStringUsingEncoding:NSUTF8StringEncoding]);
+    UnitySendMessage("ThinkGear", "receiveEEGAlgorithmValue", [[NSString stringWithFormat:@"gamma:%@",gamma]  cStringUsingEncoding:NSUTF8StringEncoding]);
+
+
+}
+
+/* notification on signal quality */
+- (void) signalQuality: (NskAlgoSignalQuality)signalQuality{
+    
+
+}
+
+
 
 @end
 

@@ -33,7 +33,9 @@ Run the Demo:
 
 11.Add "com.neurosky.thinkgear" for the value of protocol.
 
-12.Build and Run Xcode project.
+12.Select Target and click General,Select Embedded Binaries, add AlgoSdk.framework
+
+13.Build and Run Xcode project.
 
 
 Run your own project:

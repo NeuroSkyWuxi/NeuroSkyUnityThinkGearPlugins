@@ -28,6 +28,7 @@
 -(void)disconnectDevice;
 
 //config
+/*These two config functions just support MindWave plus. */
 -(void)writeConfig:(TGMWMConfigCMD)cmd;
 -(void)readConfig;
 

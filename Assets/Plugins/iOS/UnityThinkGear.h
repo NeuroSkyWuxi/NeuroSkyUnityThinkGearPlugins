@@ -9,14 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "MWMDelegate.h"
 #import "MWMDevice.h"
+#import <AlgoSdk/NskAlgoSdk.h>
 
-@interface UnityThinkGear : NSObject <MWMDelegate> {
+@interface UnityThinkGear : NSObject <MWMDelegate,NskAlgoSdkDelegate> {
     bool sendRawEnable;
     bool sendEEGEnable;
     bool sendESenseEnable;
     bool sendBlinkEnable;
     NSString *deviceInfo;
-
+    bool bleFlag;
 }
 
 - (id)initWithRawEnable:(bool)rawEnable;

@@ -25,8 +25,17 @@ public class ThinkGearController : MonoBehaviour {
 	public event UpdateFloatValueDelegate UpdateHighGammaEvent;
 
 	public event UpdateStringValueDelegate UpdateDeviceInfoEvent;
-	
-	private bool sendRawEnable = false;
+
+    public event UpdateIntValueDelegate Algo_UpdateAttentionEvent;
+    public event UpdateIntValueDelegate Algo_UpdateMeditationEvent;
+    public event UpdateFloatValueDelegate Algo_UpdateDeltaEvent;
+    public event UpdateFloatValueDelegate Algo_UpdateThetaEvent;
+    public event UpdateFloatValueDelegate Algo_UpdateAlphaEvent;
+    public event UpdateFloatValueDelegate Algo_UpdateBetaEvent;
+    public event UpdateFloatValueDelegate Algo_UpdateGammaEvent;
+
+
+    private bool sendRawEnable = false;
 	private bool sendEEGEnable = false;
 	private bool sendESenseEnable = true;
 	private bool sendBlinkEnable = true;
@@ -176,11 +185,67 @@ public class ThinkGearController : MonoBehaviour {
 
 	}
 
+    void receiveEEGAlgorithmValue(string keyValue)
+    {
+        string[] strs = keyValue.Split(':');
+        if(strs != null && strs.Length >= 2)
+        {
+            if (strs[0].Equals("attention"))
+            {
+                if(Algo_UpdateAttentionEvent != null)
+                {
+                    Algo_UpdateAttentionEvent(int.Parse(strs[1]));
+                }
+            }else if (strs[0].Equals("meditation"))
+            {
+                if (Algo_UpdateMeditationEvent != null)
+                {
+                    Algo_UpdateMeditationEvent(int.Parse(strs[1]));
+                }
+            }
+            else if (strs[0].Equals("delta"))
+            {
+                if (Algo_UpdateDeltaEvent != null)
+                {
+                    Algo_UpdateDeltaEvent(float.Parse(strs[1]));
+                }
+            }
+            else if (strs[0].Equals("theta"))
+            {
+                if (Algo_UpdateThetaEvent != null)
+                {
+                    Algo_UpdateThetaEvent(float.Parse(strs[1]));
+                }
+            }
+            else if (strs[0].Equals("alpha"))
+            {
+                if (Algo_UpdateAlphaEvent != null)
+                {
+                    Algo_UpdateAlphaEvent(float.Parse(strs[1]));
+                }
+            }
+            else if (strs[0].Equals("beta"))
+            {
+                if (Algo_UpdateBetaEvent != null)
+                {
+                    Algo_UpdateBetaEvent(float.Parse(strs[1]));
+                }
+            }
+            else if (strs[0].Equals("gamma"))
+            {
+                if (Algo_UpdateGammaEvent != null)
+                {
+                    Algo_UpdateGammaEvent(float.Parse(strs[1]));
+                }
+            }
+        }
+    }
 
-	//====================
+
+    //====================
 
 #if UNITY_ANDROID
-	/*
+    /*
 	   receive "idle" : BT is null or connect status has not been updated
 	   receive "connecting": Android device is connecting mindwave headset.
 	   receive "connected" : Android device can read data from mindwave headset.
@@ -190,7 +255,7 @@ public class ThinkGearController : MonoBehaviour {
 	   receive "low battery" :mindwave headset's battery dose not have power.
 	   receive "bluetooth error" : Android device is not support BT.
     */
-	void receiveConnectState1(string value){
+    void receiveConnectState1(string value){
 		if(UpdateConnectStateEvent != null){
 			UpdateConnectStateEvent(value);
 		}
