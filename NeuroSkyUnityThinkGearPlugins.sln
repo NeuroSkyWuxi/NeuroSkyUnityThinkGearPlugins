@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuroSkyUnityThinkGearPlugins", "Assembly-CSharp-firstpass.csproj", "{871983F2-5B59-0DA8-0234-12AF04653B7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuroSkyUnityThinkGearPlugins", "Assembly-CSharp.csproj", "{D9A59DB4-EB7E-B52E-9CA1-F84C54029F5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{871983F2-5B59-0DA8-0234-12AF04653B7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{871983F2-5B59-0DA8-0234-12AF04653B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{871983F2-5B59-0DA8-0234-12AF04653B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{871983F2-5B59-0DA8-0234-12AF04653B7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9A59DB4-EB7E-B52E-9CA1-F84C54029F5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9A59DB4-EB7E-B52E-9CA1-F84C54029F5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9A59DB4-EB7E-B52E-9CA1-F84C54029F5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9A59DB4-EB7E-B52E-9CA1-F84C54029F5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
