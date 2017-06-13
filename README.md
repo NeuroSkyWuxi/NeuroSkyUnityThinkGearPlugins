@@ -1,7 +1,9 @@
 # NeuroSkyUnityThinkGearPlugins
 A plugins for Unity to create Android and iOS app and communicate with NeuroSky MindWave Device
 
-The folder "UnityThinkGear2User4Android" is the Eclipse project that generated "UnityThinkGear.jar".
+The source code for Assets\Plugins\Android\UnityThinkGear.aar is here:
+https://github.com/NeuroSkyWuxi/UnityThinkGearAndroid
+You can build your own UnityThinkGear.aar
 
 NeuroSkyUnityThinkGear For iOS & Android Version 1.1.2
 
@@ -113,9 +115,7 @@ Run your own project:
 1.Drag the ThinkGear prefab from Project view to Hierarchy view	
 
 2.At the place you want to use Attention,Meditation,EEG and so on,add following code
-(The source code for Assets\Plugins\Android\UnityThinkGear.aar is here:
-https://github.com/NeuroSkyWuxi/UnityThinkGearAndroid
-You can build your own UnityThinkGear.aar)
+
 
 
    void Start()
